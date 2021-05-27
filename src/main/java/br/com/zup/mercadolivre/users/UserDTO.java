@@ -1,5 +1,7 @@
 package br.com.zup.mercadolivre.users;
 
+import br.com.zup.mercadolivre.validators.UniqueValue;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -8,6 +10,7 @@ public class UserDTO {
 
     @NotBlank
     @Email
+    @UniqueValue(domainClass = User.class, fieldName = "login")
     private String login;
 
     @NotBlank

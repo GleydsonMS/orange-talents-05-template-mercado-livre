@@ -22,6 +22,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
         // Configuração temporária para o funcionamento do endpoint.
         http.authorizeRequests()
                 .antMatchers("/users").permitAll()
+                .antMatchers("/categories").permitAll()
                 .anyRequest().authenticated()
                 .and().csrf().disable();
     }

@@ -1,13 +1,19 @@
 package br.com.zup.mercadolivre.users;
 
+import br.com.zup.mercadolivre.users.profiles.Profile;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @Entity
-public class User {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,6 +30,9 @@ public class User {
     @NotNull
     @PastOrPresent
     private Instant createdAt;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Profile> profiles = new ArrayList<>();
 
     @Deprecated
     private User () {}
@@ -52,11 +61,41 @@ public class User {
         return login;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
     public Instant getCreatedAt() {
         return createdAt;
+    }
+
+    public String getPassword() {
+        return this.password;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.profiles;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.login;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

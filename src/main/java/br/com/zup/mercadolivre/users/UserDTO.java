@@ -41,7 +41,7 @@ public class UserDTO {
         return login;
     }
 
-    public User toModel(String passwordEncoded) {
-        return new User(login, passwordEncoded);
+    public User toModel() {
+        return new User(login, password);
     }
 }

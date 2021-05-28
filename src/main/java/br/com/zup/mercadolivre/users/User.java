@@ -1,5 +1,7 @@
 package br.com.zup.mercadolivre.users;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.time.Instant;
@@ -29,7 +31,7 @@ public class User {
     public User(@NotBlank @Email String login,
                 @NotBlank @Size(min = 6, max = 100) String password) {
         this.login = login;
-        this.password = password;
+        this.password = new BCryptPasswordEncoder().encode(password);
         this.createdAt = Instant.now();
     }
 

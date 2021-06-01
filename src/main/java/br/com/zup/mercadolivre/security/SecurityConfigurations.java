@@ -4,6 +4,7 @@ import br.com.zup.mercadolivre.users.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -42,9 +43,9 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
     // Authorization
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        // Configuração temporária para o funcionamento do endpoint.
         http.authorizeRequests()
                 .antMatchers("/auth").permitAll()
+                .antMatchers(HttpMethod.POST, "/users").permitAll() // manter permissão apenas no desenvonvimento
                 .anyRequest().authenticated()
                 .and().cors()
                 .and().csrf().disable()

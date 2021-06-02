@@ -3,6 +3,7 @@ package br.com.zup.mercadolivre.products;
 import br.com.zup.mercadolivre.categories.Category;
 import br.com.zup.mercadolivre.products.features.Feature;
 import br.com.zup.mercadolivre.products.features.FeatureDTO;
+import br.com.zup.mercadolivre.products.images.Image;
 import br.com.zup.mercadolivre.users.User;
 import org.hibernate.validator.constraints.Length;
 
@@ -53,6 +54,9 @@ public class Product {
     @ManyToOne
     @NotNull
     private User owner;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.MERGE)
+    private Set<Image> images = new HashSet<>();
 
     @Deprecated
     private Product() {}
@@ -120,5 +124,16 @@ public class Product {
     @Override
     public int hashCode() {
         return getName().hashCode();
+    }
+
+    public void connectImages(Set<String> links) {
+        Set<Image> images = links.stream()
+                .map(link -> new Image(this, link))
+                .collect(Collectors.toSet());
+        this.images.addAll(images);
+    }
+
+    public boolean belongsUser(User possibleOwner) {
+        return this.owner.equals(possibleOwner);
     }
 }

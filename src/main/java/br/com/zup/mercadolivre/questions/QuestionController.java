@@ -1,4 +1,4 @@
-package br.com.zup.mercadolivre.opinion;
+package br.com.zup.mercadolivre.questions;
 
 import br.com.zup.mercadolivre.products.Product;
 import br.com.zup.mercadolivre.products.ProductRepository;
@@ -14,22 +14,28 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-public class OpinionController {
+public class QuestionController {
 
     @Autowired
     private ProductRepository productRepository;
 
     @Autowired
-    private OpinionRepository opinionRepository;
+    private QuestionRepository questionRepository;
 
-    @PostMapping("/products/{id}/opinion")
-    public ResponseEntity<?> create(@RequestBody @Valid OpinionDTO opinionDTO,
-                         @PathVariable("id") Long id,
-                         @AuthenticationPrincipal User customer) {
+    @Autowired
+    private Emails emails;
+
+    @PostMapping("/products/{id}/questions")
+    public ResponseEntity<?> createQuestion(@RequestBody @Valid QuestionDTO questionDTO,
+                                         @PathVariable("id") Long id,
+                                         @AuthenticationPrincipal User creator) {
 
         Product product = productRepository.findById(id).get();
-        Opinion opinion = opinionDTO.toModel(product, customer);
-        opinionRepository.save(opinion);
+        Question question = questionDTO.toModel(creator, product);
+        questionRepository.save(question);
+
+        emails.newQuestion(question);
+
         return ResponseEntity.ok().build();
     }
 }

@@ -113,4 +113,8 @@ public class User implements UserDetails {
     public int hashCode() {
         return getLogin().hashCode();
     }
+
+    public String getEmail() {
+        return this.login;
+    }
 }

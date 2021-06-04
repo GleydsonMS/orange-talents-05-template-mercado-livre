@@ -136,4 +136,8 @@ public class Product {
     public boolean belongsUser(User possibleOwner) {
         return this.owner.equals(possibleOwner);
     }
+
+    public User getOwner() {
+        return this.owner;
+    }
 }

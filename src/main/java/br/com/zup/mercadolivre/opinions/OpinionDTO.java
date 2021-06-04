@@ -1,4 +1,4 @@
-package br.com.zup.mercadolivre.opinion;
+package br.com.zup.mercadolivre.opinions;
 
 import br.com.zup.mercadolivre.products.Product;
 import br.com.zup.mercadolivre.users.User;

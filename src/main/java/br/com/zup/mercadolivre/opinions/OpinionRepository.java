@@ -1,4 +1,4 @@
-package br.com.zup.mercadolivre.opinion;
+package br.com.zup.mercadolivre.opinions;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

@@ -35,6 +35,9 @@ public class Opinion {
     @Valid
     private  User customer;
 
+    @Deprecated
+    public Opinion(){}
+
     public Opinion(@Min(1) @Max(5) Integer score,
                    @NotBlank String title,
                    @NotBlank @Size(max = 500) String description,
@@ -57,5 +60,39 @@ public class Opinion {
                 ", product=" + product +
                 ", customer=" + customer +
                 '}';
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Integer getScore() {
+        return score;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Opinion)) return false;
+
+        Opinion opinion = (Opinion) o;
+
+        if (!title.equals(opinion.title)) return false;
+        if (!description.equals(opinion.description)) return false;
+        if (!product.equals(opinion.product)) return false;
+        return customer.equals(opinion.customer);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = title.hashCode();
+        result = 31 * result + description.hashCode();
+        result = 31 * result + product.hashCode();
+        result = 31 * result + customer.hashCode();
+        return result;
     }
 }

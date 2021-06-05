@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 import java.time.Instant;
 
 @Entity
-public class Question {
+public class Question implements Comparable<Question> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,11 +52,40 @@ public class Question {
                 '}';
     }
 
+    public String getTitle() {
+        return title;
+    }
+
     public User getCreator() {
         return creator;
     }
 
     public User getProductOwner() {
         return product.getOwner();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Question)) return false;
+
+        Question question = (Question) o;
+
+        if (!getTitle().equals(question.getTitle())) return false;
+        if (!getCreator().equals(question.getCreator())) return false;
+        return product.equals(question.product);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getTitle().hashCode();
+        result = 31 * result + getCreator().hashCode();
+        result = 31 * result + product.hashCode();
+        return result;
+    }
+
+    @Override
+    public int compareTo(@org.jetbrains.annotations.NotNull Question o) {
+        return this.title.compareTo(o.title);
     }
 }

@@ -1,9 +1,12 @@
 package br.com.zup.mercadolivre.products;
 
 import br.com.zup.mercadolivre.categories.Category;
+import br.com.zup.mercadolivre.opinions.Opinion;
+import br.com.zup.mercadolivre.productDetails.OpinionsDetails;
 import br.com.zup.mercadolivre.products.features.Feature;
 import br.com.zup.mercadolivre.products.features.FeatureDTO;
 import br.com.zup.mercadolivre.products.images.Image;
+import br.com.zup.mercadolivre.questions.Question;
 import br.com.zup.mercadolivre.users.User;
 import org.hibernate.validator.constraints.Length;
 
@@ -12,9 +15,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Entity
@@ -57,6 +59,13 @@ public class Product {
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.MERGE)
     private Set<Image> images = new HashSet<>();
+
+    @OneToMany(mappedBy = "product")
+    @OrderBy("title asc")
+    private SortedSet<Question> questions = new TreeSet<>();
+
+    @OneToMany(mappedBy = "product")
+    private Set<Opinion> opinions = new HashSet<>();
 
     @Deprecated
     private Product() {}
@@ -139,5 +148,21 @@ public class Product {
 
     public User getOwner() {
         return this.owner;
+    }
+
+    public <T> Set<T> mapFeatures(Function<Feature, T> mapFunction) {
+        return this.features.stream().map(mapFunction).collect(Collectors.toSet());
+    }
+
+    public <T> Set<T> mapImages(Function<Image, T> mapFunction) {
+        return this.images.stream().map(mapFunction).collect(Collectors.toSet());
+    }
+
+    public <T extends Comparable<T>> SortedSet<T> mapQuestions(Function<Question, T> mapFunction) {
+        return this.questions.stream().map(mapFunction).collect(Collectors.toCollection(TreeSet::new));
+    }
+
+    public OpinionsDetails geOpinions() {
+        return new OpinionsDetails(this.opinions);
     }
 }

@@ -165,4 +165,12 @@ public class Product {
     public OpinionsDetails geOpinions() {
         return new OpinionsDetails(this.opinions);
     }
+
+    public boolean destock(@Positive Integer quantity) {
+        if (quantity <= this.quantity) {
+            this.quantity-=quantity;
+            return true;
+        }
+        return false;
+    }
 }

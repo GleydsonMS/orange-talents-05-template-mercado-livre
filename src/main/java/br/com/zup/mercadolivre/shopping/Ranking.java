@@ -11,8 +11,12 @@ public class Ranking implements ShoppingSuccessEvent {
     @Override
     public void process(Shopping shopping) {
         RestTemplate restTemplate = new RestTemplate();
+
+        String url = "http://localhost:8080/ranking";
+
         Map<String, Object> request = Map.of("shoppingId", shopping.getId(),
                 "ownerId", shopping.getOwner().getId());
-        restTemplate.postForEntity("http://localhost:8080/ranking", request, String.class);
+
+        restTemplate.postForEntity(url, request, String.class);
     }
 }

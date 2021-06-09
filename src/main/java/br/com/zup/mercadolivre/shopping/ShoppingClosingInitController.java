@@ -18,7 +18,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/shopping")
-public class ShoppingClosingController {
+public class ShoppingClosingInitController {
 
     @Autowired
     private ProductRepository productRepository;

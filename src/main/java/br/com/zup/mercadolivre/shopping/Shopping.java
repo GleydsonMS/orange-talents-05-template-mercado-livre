@@ -1,6 +1,5 @@
 package br.com.zup.mercadolivre.shopping;
 
-import antlr.collections.List;
 import br.com.zup.mercadolivre.products.Product;
 import br.com.zup.mercadolivre.users.User;
 import org.springframework.util.Assert;
@@ -102,6 +101,7 @@ public class Shopping {
         Assert.isTrue(transactionsSuccessfulyFinished().isEmpty(), "A compra já foi concluída com sucesso.");
 
         this.transactions.add(newTransaction);
+        this.status = newTransaction.successfullyFinished() ?  ShoppingStatus.FINALIZADA : ShoppingStatus.AGUARDANDOPAGAMENTO;
     }
 
     private Set<Transaction> transactionsSuccessfulyFinished() {

@@ -12,8 +12,8 @@ public class EmailSuccess implements ShoppingSuccessEvent{
 
     @Override
     public void process(Shopping shopping) {
-        mailer.send("Template do corpo do email enviado da compra efetuada com sucesso. ",
-                "Compra efetuada com sucesso",
+        mailer.send("O pagamento da sua compra foi efetuado com sucesso. ",
+                "Compra efetuada com sucesso.",
                 shopping.getOwner().getEmail(),
                 "compra-efetuada@mercadolivre.zup.com.br",
                 shopping.getCustomer().getEmail());

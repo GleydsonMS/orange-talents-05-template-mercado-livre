@@ -14,8 +14,8 @@ public class EmailShopping {
     private Mailer mailer;
 
     public void newShopping(@NotNull @Valid Shopping shopping) {
-        mailer.send("Template do corpo do email enviado. " + shopping.getCustomer().getEmail(),
-                "Assunto do email enviado",
+        mailer.send("Interesse na compra do seu produto: " + shopping.getCustomer().getEmail(),
+                "Interesse na compra do produto.",
                "Mercado Livre",
                 "interesse-compra@mercadolivre.zup.com.br",
                 shopping.getOwner().getEmail());

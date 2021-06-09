@@ -46,6 +46,8 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/auth").permitAll()
                 .antMatchers(HttpMethod.POST, "/users").permitAll() // manter permissão apenas no desenvonvimento
+                .antMatchers(HttpMethod.POST, "/notas-fiscais").permitAll()
+                .antMatchers(HttpMethod.POST, "/ranking").permitAll()
                 .anyRequest().authenticated()
                 .and().cors()
                 .and().csrf().disable()
